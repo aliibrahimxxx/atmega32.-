@@ -1,0 +1,510 @@
+
+keypad+7seg.elf:     file format elf32-avr
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .text         000002d4  00000000  00000000  00000074  2**1
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  1 .data         00000010  00800060  000002d4  00000348  2**0
+                  CONTENTS, ALLOC, LOAD, DATA
+  2 .comment      00000030  00000000  00000000  00000358  2**0
+                  CONTENTS, READONLY
+  3 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  00000388  2**2
+                  CONTENTS, READONLY
+  4 .debug_aranges 00000098  00000000  00000000  000003c4  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  5 .debug_info   00000a24  00000000  00000000  0000045c  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  6 .debug_abbrev 000006ee  00000000  00000000  00000e80  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  7 .debug_line   00000442  00000000  00000000  0000156e  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  8 .debug_frame  00000110  00000000  00000000  000019b0  2**2
+                  CONTENTS, READONLY, DEBUGGING
+  9 .debug_str    000003d0  00000000  00000000  00001ac0  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 10 .debug_loc    00000263  00000000  00000000  00001e90  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 11 .debug_ranges 00000068  00000000  00000000  000020f3  2**0
+                  CONTENTS, READONLY, DEBUGGING
+
+Disassembly of section .text:
+
+00000000 <__vectors>:
+   0:	0c 94 2a 00 	jmp	0x54	; 0x54 <__ctors_end>
+   4:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+   8:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+   c:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  10:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  14:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  18:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  1c:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  20:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  24:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  28:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  2c:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  30:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  34:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  38:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  3c:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  40:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  44:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  48:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  4c:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  50:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+
+00000054 <__ctors_end>:
+  54:	11 24       	eor	r1, r1
+  56:	1f be       	out	0x3f, r1	; 63
+  58:	cf e5       	ldi	r28, 0x5F	; 95
+  5a:	d8 e0       	ldi	r29, 0x08	; 8
+  5c:	de bf       	out	0x3e, r29	; 62
+  5e:	cd bf       	out	0x3d, r28	; 61
+
+00000060 <__do_copy_data>:
+  60:	10 e0       	ldi	r17, 0x00	; 0
+  62:	a0 e6       	ldi	r26, 0x60	; 96
+  64:	b0 e0       	ldi	r27, 0x00	; 0
+  66:	e4 ed       	ldi	r30, 0xD4	; 212
+  68:	f2 e0       	ldi	r31, 0x02	; 2
+  6a:	02 c0       	rjmp	.+4      	; 0x70 <__do_copy_data+0x10>
+  6c:	05 90       	lpm	r0, Z+
+  6e:	0d 92       	st	X+, r0
+  70:	a0 37       	cpi	r26, 0x70	; 112
+  72:	b1 07       	cpc	r27, r17
+  74:	d9 f7       	brne	.-10     	; 0x6c <__do_copy_data+0xc>
+  76:	0e 94 5c 01 	call	0x2b8	; 0x2b8 <main>
+  7a:	0c 94 68 01 	jmp	0x2d0	; 0x2d0 <_exit>
+
+0000007e <__bad_interrupt>:
+  7e:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
+
+00000082 <DIO_SetPinValue>:
+void DIO_SetPortDirection(u8 PortNumber,u8 Direction){
+	if(Direction==0){
+		*DDR[PortNumber]=0x00;
+	}
+	else{
+		*DDR[PortNumber]=0xff;
+  82:	41 11       	cpse	r20, r1
+  84:	15 c0       	rjmp	.+42     	; 0xb0 <DIO_SetPinValue+0x2e>
+  86:	e8 2f       	mov	r30, r24
+  88:	f0 e0       	ldi	r31, 0x00	; 0
+  8a:	ee 0f       	add	r30, r30
+  8c:	ff 1f       	adc	r31, r31
+  8e:	e8 59       	subi	r30, 0x98	; 152
+  90:	ff 4f       	sbci	r31, 0xFF	; 255
+  92:	01 90       	ld	r0, Z+
+  94:	f0 81       	ld	r31, Z
+  96:	e0 2d       	mov	r30, r0
+  98:	20 81       	ld	r18, Z
+  9a:	81 e0       	ldi	r24, 0x01	; 1
+  9c:	90 e0       	ldi	r25, 0x00	; 0
+  9e:	02 c0       	rjmp	.+4      	; 0xa4 <DIO_SetPinValue+0x22>
+  a0:	88 0f       	add	r24, r24
+  a2:	99 1f       	adc	r25, r25
+  a4:	6a 95       	dec	r22
+  a6:	e2 f7       	brpl	.-8      	; 0xa0 <DIO_SetPinValue+0x1e>
+  a8:	80 95       	com	r24
+  aa:	82 23       	and	r24, r18
+  ac:	80 83       	st	Z, r24
+  ae:	08 95       	ret
+  b0:	e8 2f       	mov	r30, r24
+  b2:	f0 e0       	ldi	r31, 0x00	; 0
+  b4:	ee 0f       	add	r30, r30
+  b6:	ff 1f       	adc	r31, r31
+  b8:	e8 59       	subi	r30, 0x98	; 152
+  ba:	ff 4f       	sbci	r31, 0xFF	; 255
+  bc:	01 90       	ld	r0, Z+
+  be:	f0 81       	ld	r31, Z
+  c0:	e0 2d       	mov	r30, r0
+  c2:	20 81       	ld	r18, Z
+  c4:	81 e0       	ldi	r24, 0x01	; 1
+  c6:	90 e0       	ldi	r25, 0x00	; 0
+  c8:	02 c0       	rjmp	.+4      	; 0xce <DIO_SetPinValue+0x4c>
+  ca:	88 0f       	add	r24, r24
+  cc:	99 1f       	adc	r25, r25
+  ce:	6a 95       	dec	r22
+  d0:	e2 f7       	brpl	.-8      	; 0xca <DIO_SetPinValue+0x48>
+  d2:	82 2b       	or	r24, r18
+  d4:	80 83       	st	Z, r24
+  d6:	08 95       	ret
+
+000000d8 <DIO_GetPinValue>:
+  d8:	e8 2f       	mov	r30, r24
+  da:	f0 e0       	ldi	r31, 0x00	; 0
+  dc:	ee 0f       	add	r30, r30
+  de:	ff 1f       	adc	r31, r31
+  e0:	e0 5a       	subi	r30, 0xA0	; 160
+  e2:	ff 4f       	sbci	r31, 0xFF	; 255
+  e4:	01 90       	ld	r0, Z+
+  e6:	f0 81       	ld	r31, Z
+  e8:	e0 2d       	mov	r30, r0
+  ea:	80 81       	ld	r24, Z
+  ec:	90 e0       	ldi	r25, 0x00	; 0
+  ee:	02 c0       	rjmp	.+4      	; 0xf4 <DIO_GetPinValue+0x1c>
+  f0:	95 95       	asr	r25
+  f2:	87 95       	ror	r24
+  f4:	6a 95       	dec	r22
+  f6:	e2 f7       	brpl	.-8      	; 0xf0 <DIO_GetPinValue+0x18>
+  f8:	81 70       	andi	r24, 0x01	; 1
+  fa:	08 95       	ret
+
+000000fc <DIO_SetPortValue>:
+	}
+}
+void DIO_SetPortValue(u8 PortNumber,u8 Value){
+	*PRT[PortNumber]=Value;
+  fc:	e8 2f       	mov	r30, r24
+  fe:	f0 e0       	ldi	r31, 0x00	; 0
+ 100:	ee 0f       	add	r30, r30
+ 102:	ff 1f       	adc	r31, r31
+ 104:	e8 59       	subi	r30, 0x98	; 152
+ 106:	ff 4f       	sbci	r31, 0xFF	; 255
+ 108:	01 90       	ld	r0, Z+
+ 10a:	f0 81       	ld	r31, Z
+ 10c:	e0 2d       	mov	r30, r0
+ 10e:	60 83       	st	Z, r22
+ 110:	08 95       	ret
+
+00000112 <keypad_init>:
+ *  Author: ali ibrahim
+ */ 
+#include "KEYPAD.h"
+
+void keypad_init() {
+	DDRA |= (1<<0)|(1<<1)|(1<<2)|(1<<3) ; 
+ 112:	8a b3       	in	r24, 0x1a	; 26
+ 114:	8f 60       	ori	r24, 0x0F	; 15
+ 116:	8a bb       	out	0x1a, r24	; 26
+	DDRA &=~(1<<4)|(1<<5)|(1<<6)|(1<<6) ;
+ 118:	d4 98       	cbi	0x1a, 4	; 26
+	DIO_SetPortValue(0,0xff); //pull up col & CLR rows
+ 11a:	6f ef       	ldi	r22, 0xFF	; 255
+ 11c:	80 e0       	ldi	r24, 0x00	; 0
+ 11e:	0e 94 7e 00 	call	0xfc	; 0xfc <DIO_SetPortValue>
+ 122:	08 95       	ret
+
+00000124 <keypad_Scan>:
+}
+
+u8 keypad_Scan()
+{	int i,j ; 
+ 124:	af 92       	push	r10
+ 126:	bf 92       	push	r11
+ 128:	cf 92       	push	r12
+ 12a:	df 92       	push	r13
+ 12c:	ef 92       	push	r14
+ 12e:	ff 92       	push	r15
+ 130:	0f 93       	push	r16
+ 132:	1f 93       	push	r17
+ 134:	cf 93       	push	r28
+ 136:	df 93       	push	r29
+	for (i=0;i<ROW;i++)
+ 138:	c0 e0       	ldi	r28, 0x00	; 0
+ 13a:	d0 e0       	ldi	r29, 0x00	; 0
+ 13c:	aa 24       	eor	r10, r10
+ 13e:	a3 94       	inc	r10
+ 140:	b1 2c       	mov	r11, r1
+	{
+		DIO_SetPinValue(0,R0,1); 
+ 142:	41 e0       	ldi	r20, 0x01	; 1
+ 144:	60 e0       	ldi	r22, 0x00	; 0
+ 146:	80 e0       	ldi	r24, 0x00	; 0
+ 148:	0e 94 41 00 	call	0x82	; 0x82 <DIO_SetPinValue>
+		DIO_SetPinValue(0,R1,1);
+ 14c:	41 e0       	ldi	r20, 0x01	; 1
+ 14e:	61 e0       	ldi	r22, 0x01	; 1
+ 150:	80 e0       	ldi	r24, 0x00	; 0
+ 152:	0e 94 41 00 	call	0x82	; 0x82 <DIO_SetPinValue>
+		DIO_SetPinValue(0,R2,1);
+ 156:	41 e0       	ldi	r20, 0x01	; 1
+ 158:	62 e0       	ldi	r22, 0x02	; 2
+ 15a:	80 e0       	ldi	r24, 0x00	; 0
+ 15c:	0e 94 41 00 	call	0x82	; 0x82 <DIO_SetPinValue>
+		DIO_SetPinValue(0,R3,1);
+ 160:	41 e0       	ldi	r20, 0x01	; 1
+ 162:	63 e0       	ldi	r22, 0x03	; 3
+ 164:	80 e0       	ldi	r24, 0x00	; 0
+ 166:	0e 94 41 00 	call	0x82	; 0x82 <DIO_SetPinValue>
+		DIO_SetPinValue(0,i,0); 
+ 16a:	40 e0       	ldi	r20, 0x00	; 0
+ 16c:	6c 2f       	mov	r22, r28
+ 16e:	80 e0       	ldi	r24, 0x00	; 0
+ 170:	0e 94 41 00 	call	0x82	; 0x82 <DIO_SetPinValue>
+ 174:	04 e0       	ldi	r16, 0x04	; 4
+ 176:	10 e0       	ldi	r17, 0x00	; 0
+ 178:	cc 24       	eor	r12, r12
+ 17a:	c3 94       	inc	r12
+ 17c:	d1 2c       	mov	r13, r1
+ 17e:	e1 2c       	mov	r14, r1
+ 180:	f1 2c       	mov	r15, r1
+ 182:	08 c0       	rjmp	.+16     	; 0x194 <keypad_Scan+0x70>
+ 184:	8f ef       	ldi	r24, 0xFF	; 255
+ 186:	e8 1a       	sub	r14, r24
+ 188:	f8 0a       	sbc	r15, r24
+ 18a:	8f ef       	ldi	r24, 0xFF	; 255
+ 18c:	c8 1a       	sub	r12, r24
+ 18e:	d8 0a       	sbc	r13, r24
+ 190:	0f 5f       	subi	r16, 0xFF	; 255
+ 192:	1f 4f       	sbci	r17, 0xFF	; 255
+		for (j=0;j<COL;j++)
+		{
+			if (!DIO_GetPinValue(0,j+ROW))
+ 194:	60 2f       	mov	r22, r16
+ 196:	80 e0       	ldi	r24, 0x00	; 0
+ 198:	0e 94 6c 00 	call	0xd8	; 0xd8 <DIO_GetPinValue>
+ 19c:	81 11       	cpse	r24, r1
+ 19e:	4f c0       	rjmp	.+158    	; 0x23e <keypad_Scan+0x11a>
+ 1a0:	95 01       	movw	r18, r10
+ 1a2:	00 2e       	mov	r0, r16
+ 1a4:	02 c0       	rjmp	.+4      	; 0x1aa <keypad_Scan+0x86>
+ 1a6:	22 0f       	add	r18, r18
+ 1a8:	33 1f       	adc	r19, r19
+ 1aa:	0a 94       	dec	r0
+ 1ac:	e2 f7       	brpl	.-8      	; 0x1a6 <keypad_Scan+0x82>
+			{
+				while(!(PINA & (1<<j+ROW)));
+ 1ae:	89 b3       	in	r24, 0x19	; 25
+ 1b0:	90 e0       	ldi	r25, 0x00	; 0
+ 1b2:	82 23       	and	r24, r18
+ 1b4:	93 23       	and	r25, r19
+ 1b6:	89 2b       	or	r24, r25
+ 1b8:	d1 f3       	breq	.-12     	; 0x1ae <keypad_Scan+0x8a>
+				 switch (i)
+ 1ba:	c1 30       	cpi	r28, 0x01	; 1
+ 1bc:	d1 05       	cpc	r29, r1
+ 1be:	c1 f0       	breq	.+48     	; 0x1f0 <keypad_Scan+0xcc>
+ 1c0:	1c f4       	brge	.+6      	; 0x1c8 <keypad_Scan+0xa4>
+ 1c2:	20 97       	sbiw	r28, 0x00	; 0
+ 1c4:	41 f0       	breq	.+16     	; 0x1d6 <keypad_Scan+0xb2>
+ 1c6:	3b c0       	rjmp	.+118    	; 0x23e <keypad_Scan+0x11a>
+ 1c8:	c2 30       	cpi	r28, 0x02	; 2
+ 1ca:	d1 05       	cpc	r29, r1
+ 1cc:	f1 f0       	breq	.+60     	; 0x20a <keypad_Scan+0xe6>
+ 1ce:	c3 30       	cpi	r28, 0x03	; 3
+ 1d0:	d1 05       	cpc	r29, r1
+ 1d2:	41 f1       	breq	.+80     	; 0x224 <keypad_Scan+0x100>
+ 1d4:	34 c0       	rjmp	.+104    	; 0x23e <keypad_Scan+0x11a>
+ 1d6:	c7 01       	movw	r24, r14
+				 {
+					 case 0 :	if (j == 0) return 7;
+ 1d8:	e1 14       	cp	r14, r1
+ 1da:	f1 04       	cpc	r15, r1
+ 1dc:	e1 f1       	breq	.+120    	; 0x256 <keypad_Scan+0x132>
+								else if (j == 1) return 8;
+ 1de:	81 30       	cpi	r24, 0x01	; 1
+ 1e0:	91 05       	cpc	r25, r1
+ 1e2:	d9 f1       	breq	.+118    	; 0x25a <keypad_Scan+0x136>
+								else if (j == 2) return 9;
+ 1e4:	82 30       	cpi	r24, 0x02	; 2
+ 1e6:	91 05       	cpc	r25, r1
+ 1e8:	d1 f1       	breq	.+116    	; 0x25e <keypad_Scan+0x13a>
+								else if (j == 3) return '/';
+ 1ea:	03 97       	sbiw	r24, 0x03	; 3
+ 1ec:	41 f5       	brne	.+80     	; 0x23e <keypad_Scan+0x11a>
+ 1ee:	39 c0       	rjmp	.+114    	; 0x262 <keypad_Scan+0x13e>
+ 1f0:	c7 01       	movw	r24, r14
+								break;
+					case 1 :
+								if (j == 0) return 4;
+ 1f2:	e1 14       	cp	r14, r1
+ 1f4:	f1 04       	cpc	r15, r1
+ 1f6:	b9 f1       	breq	.+110    	; 0x266 <keypad_Scan+0x142>
+								else if (j == 1) return 5;
+ 1f8:	81 30       	cpi	r24, 0x01	; 1
+ 1fa:	91 05       	cpc	r25, r1
+ 1fc:	b1 f1       	breq	.+108    	; 0x26a <keypad_Scan+0x146>
+								else if (j == 2) return 6;
+ 1fe:	82 30       	cpi	r24, 0x02	; 2
+ 200:	91 05       	cpc	r25, r1
+ 202:	a9 f1       	breq	.+106    	; 0x26e <keypad_Scan+0x14a>
+								else if (j == 3) return '*';
+ 204:	03 97       	sbiw	r24, 0x03	; 3
+ 206:	d9 f4       	brne	.+54     	; 0x23e <keypad_Scan+0x11a>
+ 208:	34 c0       	rjmp	.+104    	; 0x272 <keypad_Scan+0x14e>
+ 20a:	c7 01       	movw	r24, r14
+								break;
+					case 2 :	if (j == 0) return 1;
+ 20c:	e1 14       	cp	r14, r1
+ 20e:	f1 04       	cpc	r15, r1
+ 210:	91 f1       	breq	.+100    	; 0x276 <keypad_Scan+0x152>
+								else if (j == 1) return 2;
+ 212:	81 30       	cpi	r24, 0x01	; 1
+ 214:	91 05       	cpc	r25, r1
+ 216:	89 f1       	breq	.+98     	; 0x27a <keypad_Scan+0x156>
+								else if (j == 2) return 3;
+ 218:	82 30       	cpi	r24, 0x02	; 2
+ 21a:	91 05       	cpc	r25, r1
+ 21c:	81 f1       	breq	.+96     	; 0x27e <keypad_Scan+0x15a>
+								else if (j == 3) return '-';
+ 21e:	03 97       	sbiw	r24, 0x03	; 3
+ 220:	71 f4       	brne	.+28     	; 0x23e <keypad_Scan+0x11a>
+ 222:	2f c0       	rjmp	.+94     	; 0x282 <keypad_Scan+0x15e>
+ 224:	c7 01       	movw	r24, r14
+								break;
+					case 3 :
+								if (j == 0) return '?';
+ 226:	e1 14       	cp	r14, r1
+ 228:	f1 04       	cpc	r15, r1
+ 22a:	69 f1       	breq	.+90     	; 0x286 <keypad_Scan+0x162>
+								else if (j == 1) return '0';
+ 22c:	81 30       	cpi	r24, 0x01	; 1
+ 22e:	91 05       	cpc	r25, r1
+ 230:	61 f1       	breq	.+88     	; 0x28a <keypad_Scan+0x166>
+								else if (j == 2) return '=';
+ 232:	82 30       	cpi	r24, 0x02	; 2
+ 234:	91 05       	cpc	r25, r1
+ 236:	59 f1       	breq	.+86     	; 0x28e <keypad_Scan+0x16a>
+								else if (j == 3) return '+';
+ 238:	03 97       	sbiw	r24, 0x03	; 3
+ 23a:	69 f5       	brne	.+90     	; 0x296 <keypad_Scan+0x172>
+ 23c:	2a c0       	rjmp	.+84     	; 0x292 <keypad_Scan+0x16e>
+		DIO_SetPinValue(0,R0,1); 
+		DIO_SetPinValue(0,R1,1);
+		DIO_SetPinValue(0,R2,1);
+		DIO_SetPinValue(0,R3,1);
+		DIO_SetPinValue(0,i,0); 
+		for (j=0;j<COL;j++)
+ 23e:	84 e0       	ldi	r24, 0x04	; 4
+ 240:	c8 16       	cp	r12, r24
+ 242:	d1 04       	cpc	r13, r1
+ 244:	0c f4       	brge	.+2      	; 0x248 <keypad_Scan+0x124>
+ 246:	9e cf       	rjmp	.-196    	; 0x184 <keypad_Scan+0x60>
+	DIO_SetPortValue(0,0xff); //pull up col & CLR rows
+}
+
+u8 keypad_Scan()
+{	int i,j ; 
+	for (i=0;i<ROW;i++)
+ 248:	21 96       	adiw	r28, 0x01	; 1
+ 24a:	c4 30       	cpi	r28, 0x04	; 4
+ 24c:	d1 05       	cpc	r29, r1
+ 24e:	09 f0       	breq	.+2      	; 0x252 <keypad_Scan+0x12e>
+ 250:	78 cf       	rjmp	.-272    	; 0x142 <keypad_Scan+0x1e>
+			     }
+				 
+			}
+		}
+	}
+	return 'A';//Return 'A' if no key is pressed.
+ 252:	81 e4       	ldi	r24, 0x41	; 65
+ 254:	26 c0       	rjmp	.+76     	; 0x2a2 <keypad_Scan+0x17e>
+			if (!DIO_GetPinValue(0,j+ROW))
+			{
+				while(!(PINA & (1<<j+ROW)));
+				 switch (i)
+				 {
+					 case 0 :	if (j == 0) return 7;
+ 256:	87 e0       	ldi	r24, 0x07	; 7
+ 258:	24 c0       	rjmp	.+72     	; 0x2a2 <keypad_Scan+0x17e>
+								else if (j == 1) return 8;
+ 25a:	88 e0       	ldi	r24, 0x08	; 8
+ 25c:	22 c0       	rjmp	.+68     	; 0x2a2 <keypad_Scan+0x17e>
+								else if (j == 2) return 9;
+ 25e:	89 e0       	ldi	r24, 0x09	; 9
+ 260:	20 c0       	rjmp	.+64     	; 0x2a2 <keypad_Scan+0x17e>
+								else if (j == 3) return '/';
+ 262:	8f e2       	ldi	r24, 0x2F	; 47
+ 264:	1e c0       	rjmp	.+60     	; 0x2a2 <keypad_Scan+0x17e>
+								break;
+					case 1 :
+								if (j == 0) return 4;
+ 266:	84 e0       	ldi	r24, 0x04	; 4
+ 268:	1c c0       	rjmp	.+56     	; 0x2a2 <keypad_Scan+0x17e>
+								else if (j == 1) return 5;
+ 26a:	85 e0       	ldi	r24, 0x05	; 5
+ 26c:	1a c0       	rjmp	.+52     	; 0x2a2 <keypad_Scan+0x17e>
+								else if (j == 2) return 6;
+ 26e:	86 e0       	ldi	r24, 0x06	; 6
+ 270:	18 c0       	rjmp	.+48     	; 0x2a2 <keypad_Scan+0x17e>
+								else if (j == 3) return '*';
+ 272:	8a e2       	ldi	r24, 0x2A	; 42
+ 274:	16 c0       	rjmp	.+44     	; 0x2a2 <keypad_Scan+0x17e>
+								break;
+					case 2 :	if (j == 0) return 1;
+ 276:	81 e0       	ldi	r24, 0x01	; 1
+ 278:	14 c0       	rjmp	.+40     	; 0x2a2 <keypad_Scan+0x17e>
+								else if (j == 1) return 2;
+ 27a:	82 e0       	ldi	r24, 0x02	; 2
+ 27c:	12 c0       	rjmp	.+36     	; 0x2a2 <keypad_Scan+0x17e>
+								else if (j == 2) return 3;
+ 27e:	83 e0       	ldi	r24, 0x03	; 3
+ 280:	10 c0       	rjmp	.+32     	; 0x2a2 <keypad_Scan+0x17e>
+								else if (j == 3) return '-';
+ 282:	8d e2       	ldi	r24, 0x2D	; 45
+ 284:	0e c0       	rjmp	.+28     	; 0x2a2 <keypad_Scan+0x17e>
+								break;
+					case 3 :
+								if (j == 0) return '?';
+ 286:	8f e3       	ldi	r24, 0x3F	; 63
+ 288:	0c c0       	rjmp	.+24     	; 0x2a2 <keypad_Scan+0x17e>
+								else if (j == 1) return '0';
+ 28a:	80 e3       	ldi	r24, 0x30	; 48
+ 28c:	0a c0       	rjmp	.+20     	; 0x2a2 <keypad_Scan+0x17e>
+								else if (j == 2) return '=';
+ 28e:	8d e3       	ldi	r24, 0x3D	; 61
+ 290:	08 c0       	rjmp	.+16     	; 0x2a2 <keypad_Scan+0x17e>
+								else if (j == 3) return '+';
+ 292:	8b e2       	ldi	r24, 0x2B	; 43
+ 294:	06 c0       	rjmp	.+12     	; 0x2a2 <keypad_Scan+0x17e>
+		DIO_SetPinValue(0,R0,1); 
+		DIO_SetPinValue(0,R1,1);
+		DIO_SetPinValue(0,R2,1);
+		DIO_SetPinValue(0,R3,1);
+		DIO_SetPinValue(0,i,0); 
+		for (j=0;j<COL;j++)
+ 296:	84 e0       	ldi	r24, 0x04	; 4
+ 298:	c8 16       	cp	r12, r24
+ 29a:	d1 04       	cpc	r13, r1
+ 29c:	0c f4       	brge	.+2      	; 0x2a0 <keypad_Scan+0x17c>
+ 29e:	72 cf       	rjmp	.-284    	; 0x184 <keypad_Scan+0x60>
+			     }
+				 
+			}
+		}
+	}
+	return 'A';//Return 'A' if no key is pressed.
+ 2a0:	81 e4       	ldi	r24, 0x41	; 65
+ 2a2:	df 91       	pop	r29
+ 2a4:	cf 91       	pop	r28
+ 2a6:	1f 91       	pop	r17
+ 2a8:	0f 91       	pop	r16
+ 2aa:	ff 90       	pop	r15
+ 2ac:	ef 90       	pop	r14
+ 2ae:	df 90       	pop	r13
+ 2b0:	cf 90       	pop	r12
+ 2b2:	bf 90       	pop	r11
+ 2b4:	af 90       	pop	r10
+ 2b6:	08 95       	ret
+
+000002b8 <main>:
+#include "xdelay.h"
+
+
+int main(void)
+{ u8 key = 0  ;
+	keypad_init();
+ 2b8:	0e 94 89 00 	call	0x112	; 0x112 <keypad_init>
+	DDRC |= (1<<0)|(1<<1)|(1<<2)|(1<<3);
+ 2bc:	84 b3       	in	r24, 0x14	; 20
+ 2be:	8f 60       	ori	r24, 0x0F	; 15
+ 2c0:	84 bb       	out	0x14, r24	; 20
+	PORTC = key ;
+ 2c2:	15 ba       	out	0x15, r1	; 21
+    while (1) 
+    { 
+		key =  keypad_Scan() ; 
+ 2c4:	0e 94 92 00 	call	0x124	; 0x124 <keypad_Scan>
+		if(key!='A'){
+ 2c8:	81 34       	cpi	r24, 0x41	; 65
+ 2ca:	e1 f3       	breq	.-8      	; 0x2c4 <main+0xc>
+			PORTC = key; }
+ 2cc:	85 bb       	out	0x15, r24	; 21
+ 2ce:	fa cf       	rjmp	.-12     	; 0x2c4 <main+0xc>
+
+000002d0 <_exit>:
+ 2d0:	f8 94       	cli
+
+000002d2 <__stop_program>:
+ 2d2:	ff cf       	rjmp	.-2      	; 0x2d2 <__stop_program>
